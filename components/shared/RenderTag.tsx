@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "../ui/badge";
 
 interface Props {
-  _id: number;
+  _id: string;
   name: string;
   totalQuestions?: number;
   showCount?: boolean;
@@ -15,7 +15,7 @@ const RenderTag = ({ _id, name, totalQuestions, showCount }: Props) => {
         {name}
       </Badge>
       {showCount && (
-        <p className="text-medium text-dark500_light700">{totalQuestions}</p>
+        <p className="small-medium text-dark500_light700">{totalQuestions}</p>
       )}
     </Link>
   );
