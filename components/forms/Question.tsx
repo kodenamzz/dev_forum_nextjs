@@ -20,6 +20,7 @@ import { questionsSchema } from "@/lib/validations";
 import React, { useRef } from "react";
 import { Badge } from "../ui/badge";
 import { X as ClearIcon } from "lucide-react";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const Question = () => {
   const type = "edit";
@@ -35,7 +36,7 @@ const Question = () => {
   });
   const { isSubmitting } = form.formState;
 
-  function onSubmit(values: z.infer<typeof questionsSchema>) {
+  async function onSubmit(values: z.infer<typeof questionsSchema>) {
     console.log(values);
     // return new Promise((resolve) => {
     //   setTimeout(() => resolve(true), 1000);
@@ -43,6 +44,8 @@ const Question = () => {
 
     try {
       // make an async to call api to post or update question
+
+      await createQuestion({});
       // navigate to home (see question)
     } catch (error) {}
   }
@@ -131,6 +134,8 @@ const Question = () => {
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(_evt, editor) => (editorRef.current = editor)}
                   initialValue=""
+                  onBlur={field.onBlur}
+                  onEditorChange={(content: string) => field.onChange(content)}
                   init={{
                     height: 350,
                     menubar: false,
@@ -161,7 +166,7 @@ const Question = () => {
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Introduce the problem and expand on what you put in the title.
-                Maximum 20 characters.
+                Minimum 100 characters.
               </FormDescription>
               <FormMessage className="text-red-500" />
             </FormItem>
