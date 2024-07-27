@@ -21,9 +21,17 @@ import React, { useRef } from "react";
 import { Badge } from "../ui/badge";
 import { X as ClearIcon } from "lucide-react";
 import { createQuestion } from "@/lib/actions/question.action";
+import { usePathname, useRouter } from "next/navigation";
 
-const Question = () => {
-  const type = "edit";
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const type: string = "edit";
   const editorRef = useRef<TinyMCEEditor | null>(null);
 
   const form = useForm<z.infer<typeof questionsSchema>>({
@@ -37,6 +45,7 @@ const Question = () => {
   const { isSubmitting } = form.formState;
 
   async function onSubmit(values: z.infer<typeof questionsSchema>) {
+    console.log("_________________________________");
     console.log(values);
     // return new Promise((resolve) => {
     //   setTimeout(() => resolve(true), 1000);
@@ -45,9 +54,18 @@ const Question = () => {
     try {
       // make an async to call api to post or update question
 
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: mongoUserId,
+        path: pathname,
+      });
       // navigate to home (see question)
-    } catch (error) {}
+      router.push("/");
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   const handleInputKeyDown = (

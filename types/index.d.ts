@@ -48,3 +48,68 @@ export interface BadgeCounts {
 }
 
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;
+
+export interface NewQuestion {
+  title: string;
+  content: string;
+  tags: string[];
+  author: string;
+  path: string;
+}
+
+export interface User {
+  _id: string;
+  clerkId: string;
+  name: string;
+  username: string;
+  email: string;
+  password?: string;
+  bio?: string;
+  picture: string;
+  location?: string;
+  portfolioWebsite?: string;
+  reputation: number;
+  // eslint-disable-next-line no-use-before-define
+  saved: Question[];
+  joinedAt: Date;
+}
+
+export interface Tag {
+  _id: string;
+  name: string;
+  description?: string;
+  // eslint-disable-next-line no-use-before-define
+  questions: Question[];
+  followers: User[];
+  createdOn: Date;
+}
+
+export interface Answer {
+  _id: string;
+  clerkId: string;
+  name: string;
+  username: string;
+  email: string;
+  password?: string;
+  bio?: string;
+  picture: string;
+  location?: string;
+  portfolioWebsite?: string;
+  reputation: number;
+  // eslint-disable-next-line no-use-before-define
+  saved: Question[];
+  joinedAt: Date;
+}
+
+export interface Question {
+  _id: string;
+  title: string;
+  content: string;
+  tags: Tag[];
+  view: number;
+  upvotes: User[];
+  downvotes: User[];
+  author: User;
+  answer: Answer[];
+  createdAt: Date;
+}
