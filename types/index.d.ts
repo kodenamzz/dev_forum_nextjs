@@ -49,15 +49,7 @@ export interface BadgeCounts {
 
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;
 
-export interface NewQuestion {
-  title: string;
-  content: string;
-  tags: string[];
-  author: string;
-  path: string;
-}
-
-export interface User {
+export interface IUser {
   _id: string;
   clerkId: string;
   name: string;
@@ -70,21 +62,21 @@ export interface User {
   portfolioWebsite?: string;
   reputation: number;
   // eslint-disable-next-line no-use-before-define
-  saved: Question[];
+  saved: IQuestion[];
   joinedAt: Date;
 }
 
-export interface Tag {
+export interface ITag {
   _id: string;
   name: string;
   description?: string;
   // eslint-disable-next-line no-use-before-define
-  questions: Question[];
-  followers: User[];
+  questions: IQuestion[];
+  followers: IUser[];
   createdOn: Date;
 }
 
-export interface Answer {
+export interface IAnswer {
   _id: string;
   clerkId: string;
   name: string;
@@ -97,19 +89,19 @@ export interface Answer {
   portfolioWebsite?: string;
   reputation: number;
   // eslint-disable-next-line no-use-before-define
-  saved: Question[];
+  saved: IQuestion[];
   joinedAt: Date;
 }
 
-export interface Question {
+export interface IQuestion {
   _id: string;
   title: string;
   content: string;
-  tags: Tag[];
-  view: number;
-  upvotes: User[];
-  downvotes: User[];
-  author: User;
-  answer: Answer[];
+  tags: ITag[];
+  views: number;
+  upvotes: IUser[];
+  downvotes: IUser[];
+  author: IUser;
+  answers: IAnswer[];
   createdAt: Date;
 }

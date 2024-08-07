@@ -1,6 +1,6 @@
-import { User } from "@/types";
+import { IUser } from "@/types";
 
-export async function getUserById(params: { userId: string }): Promise<User> {
+export async function getUserById(params: { userId: string }): Promise<IUser> {
   try {
     const { userId } = params;
 
@@ -11,7 +11,7 @@ export async function getUserById(params: { userId: string }): Promise<User> {
     }
 
     const user = await response.json();
-    return user as User;
+    return user as IUser;
   } catch (error) {
     console.log(error);
     throw error;

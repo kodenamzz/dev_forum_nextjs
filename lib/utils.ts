@@ -5,7 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getTimestamp = (time: Date): string => {
+export const getTimestamp = (timeInput: Date | String): string => {
+  let time: Date;
+  if (typeof timeInput === "string") {
+    time = new Date(timeInput);
+  } else {
+    time = timeInput as Date;
+  }
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - time.getTime()) / 1000);
 

@@ -10,7 +10,7 @@ const AskQuestion = async () => {
 
   const appUser = await getUserById({ userId: user.id });
 
-  // console.log("appUser", appUser);
+  console.log("appUser", appUser);
 
   return (
     <div>
