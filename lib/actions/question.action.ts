@@ -19,8 +19,7 @@ export async function getQuestions(
     }
 
     const result = await response.json();
-    console.log("result", result);
-    return result;
+    return result as IQuestion[];
   } catch (error) {
     console.log("error", error);
     throw error;
