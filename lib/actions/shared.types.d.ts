@@ -1,5 +1,6 @@
 import { IUser } from "@/types";
 
+// QUESTIONS
 export interface GetQuestionsParams {
   page?: number;
   pageSize?: number;
@@ -14,6 +15,8 @@ export interface CreateQuestionParams {
   author: string | IUser;
   path: string;
 }
+
+// USERS
 export interface GetAllUsersParams {
   page?: number;
   pageSize?: number;
@@ -21,7 +24,22 @@ export interface GetAllUsersParams {
   searchQuery?: string; // Add searchQuery parameter
 }
 
+// TAGS
 export interface GetTopInteractedTagsParams {
   userId: string;
   limit?: number;
 }
+
+export interface GetAllTagsParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+}
+
+export type QueryParams =
+  | GetQuestionsParams
+  | CreateQuestionParams
+  | GetAllUsersParams
+  | GetTopInteractedTagsParams
+  | GetAllTagsParams;

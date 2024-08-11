@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { QueryParams } from "./actions/shared.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -51,4 +52,18 @@ export const formatNumber = (num: number): string => {
   } else {
     return num.toString();
   }
+};
+
+export const createSearchParamsString = (params: QueryParams) => {
+  const searchParams = new URLSearchParams(
+    Object.entries(params).reduce(
+      (acc, [key, value]) => {
+        acc[key] = String(value);
+        return acc;
+      },
+      {} as Record<string, string>
+    )
+  ).toString();
+
+  return searchParams ? `?${searchParams}` : "";
 };

@@ -1,11 +1,21 @@
 import { IUser } from "@/types";
 import { GetAllUsersParams } from "./shared.types";
+import { createSearchParamsString } from "../utils";
 
 export async function getUserById(params: { userId: string }): Promise<IUser> {
   try {
     const { userId } = params;
 
-    const response = await fetch(`${process.env.API_ENDPOINT}/users/${userId}`);
+    const response = await fetch(
+      `${process.env.API_ENDPOINT}/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -20,26 +30,17 @@ export async function getUserById(params: { userId: string }): Promise<IUser> {
 }
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
-    const searchParams = new URLSearchParams(
-      Object.entries(params).reduce(
-        (acc, [key, value]) => {
-          acc[key] = String(value);
-          return acc;
-        },
-        {} as Record<string, string>
-      )
-    ).toString();
-
+    const searchParams = createSearchParamsString(params);
     const response = await fetch(
-      `${process.env.API_ENDPOINT}/users?${searchParams}`
+      `${process.env.API_ENDPOINT}/users${searchParams}`
     );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const users = await response.json();
-    return { users: users as IUser[] };
+    const result = await response.json();
+    return result as { users: IUser[]; isNext: boolean };
   } catch (error) {
     console.log(error);
     throw error;
