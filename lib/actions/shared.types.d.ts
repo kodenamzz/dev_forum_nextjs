@@ -16,6 +16,10 @@ export interface CreateQuestionParams {
   path: string;
 }
 
+export interface GetQuestionByIdParams {
+  questionId: string;
+}
+
 // USERS
 export interface GetAllUsersParams {
   page?: number;
