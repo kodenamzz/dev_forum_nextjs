@@ -1,8 +1,13 @@
+import Answer from "@/components/forms/Answer";
+import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
+import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimestamp } from "@/lib/utils";
+import { IUser } from "@/types";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,6 +19,13 @@ const QuestionPage = async ({
   searchParams: any;
 }) => {
   const result = await getQuestionById({ questionId: params.id });
+
+  const { userId: clerkId } = auth();
+  let mongoUser: IUser | undefined;
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
+
   return (
     <>
       <div className="flex-start w-full flex-col">
@@ -73,7 +85,16 @@ const QuestionPage = async ({
           />
         ))}
       </div>
-      Answer
+
+      <AllAnswers
+        questionId={result._id}
+        userId={mongoUser?._id}
+        totalAnswers={result.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
+      />
+
+      <Answer authorId={mongoUser?._id} questionId={params.id} />
     </>
   );
 };

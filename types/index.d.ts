@@ -78,19 +78,13 @@ export interface ITag {
 
 export interface IAnswer {
   _id: string;
-  clerkId: string;
-  name: string;
-  username: string;
-  email: string;
-  password?: string;
-  bio?: string;
-  picture: string;
-  location?: string;
-  portfolioWebsite?: string;
-  reputation: number;
+  author: IUser;
   // eslint-disable-next-line no-use-before-define
-  saved: IQuestion[];
-  joinedAt: Date;
+  question: IQuestion;
+  content: string;
+  upvotes: IUser[];
+  downvotes: IUser[];
+  createdAt: Date;
 }
 
 export interface IQuestion {

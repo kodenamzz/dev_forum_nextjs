@@ -20,6 +20,22 @@ export interface GetQuestionByIdParams {
   questionId: string;
 }
 
+// ANSWERS
+
+export interface CreateAnswerParams {
+  content: string;
+  author: string; // User ID
+  question: string; // Question ID
+  path: string;
+}
+
+export interface GetAnswersParams {
+  questionId: string;
+  sortBy?: string;
+  page?: number;
+  pageSize?: number;
+}
+
 // USERS
 export interface GetAllUsersParams {
   page?: number;
