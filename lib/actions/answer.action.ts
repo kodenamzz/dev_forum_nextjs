@@ -1,7 +1,11 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { CreateAnswerParams, GetAnswersParams } from "./shared.types";
+import {
+  AnswerVoteParams,
+  CreateAnswerParams,
+  GetAnswersParams,
+} from "./shared.types";
 import { revalidatePath } from "next/cache";
 import { IAnswer } from "@/types";
 import { createSearchParamsString } from "../utils";
@@ -56,6 +60,61 @@ export async function getAnswers(
     return result as { answers: IAnswer[] };
   } catch (error) {
     console.log("error", error);
+    throw error;
+  }
+}
+
+export async function upvoteAnswer(params: AnswerVoteParams) {
+  try {
+    const { path, ...answerVoteData } = params;
+
+    const response = await fetch(`${process.env.API_ENDPOINT}/answers/upvote`, {
+      method: "PUT",
+      body: JSON.stringify(answerVoteData),
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookies().toString(),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    revalidatePath(path);
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function downvoteAnswer(params: AnswerVoteParams) {
+  try {
+    const { path, ...answerVoteData } = params;
+
+    const response = await fetch(
+      `${process.env.API_ENDPOINT}/answers/downvote`,
+      {
+        method: "PUT",
+        body: JSON.stringify(answerVoteData),
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies().toString(),
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    revalidatePath(path);
+    return result;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }

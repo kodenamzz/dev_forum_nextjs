@@ -8,9 +8,9 @@ interface QuestionProps {
   title: string;
   tags: { _id: string; name: string }[];
   author: { _id: string; name: string; picture: string };
-  upvotes: { _id: string; name: string }[];
+  upvotes: string[];
   views: number;
-  answers: Array<Object>;
+  answers: string[];
   createdAt: Date;
 }
 

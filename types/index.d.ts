@@ -82,8 +82,8 @@ export interface IAnswer {
   // eslint-disable-next-line no-use-before-define
   question: IQuestion;
   content: string;
-  upvotes: IUser[];
-  downvotes: IUser[];
+  upvotes: string[];
+  downvotes: string[];
   createdAt: Date;
 }
 
@@ -93,9 +93,9 @@ export interface IQuestion {
   content: string;
   tags: ITag[];
   views: number;
-  upvotes: IUser[];
-  downvotes: IUser[];
+  upvotes: string[];
+  downvotes: string[];
   author: IUser;
-  answers: IAnswer[];
+  answers: string[];
   createdAt: Date;
 }

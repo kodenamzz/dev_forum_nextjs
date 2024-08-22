@@ -20,7 +20,7 @@ import { Editor as TinyMCEEditor } from "tinymce";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
 
-type Props = { authorId: string | undefined; questionId: string };
+type Props = { authorId: string; questionId: string };
 
 const Answer = ({ authorId, questionId }: Props) => {
   const { mode } = useTheme();

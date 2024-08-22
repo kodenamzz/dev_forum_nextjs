@@ -4,6 +4,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "./shared.types";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -86,6 +87,64 @@ export async function getQuestionById(
     return result as IQuestion;
   } catch (error) {
     console.log("error", error);
+    throw error;
+  }
+}
+
+export async function upvoteQuestion(params: QuestionVoteParams) {
+  try {
+    const { path, ...questionVoteData } = params;
+
+    const response = await fetch(
+      `${process.env.API_ENDPOINT}/questions/upvote`,
+      {
+        method: "PUT",
+        body: JSON.stringify(questionVoteData),
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies().toString(),
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    revalidatePath(path);
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function downvoteQuestion(params: QuestionVoteParams) {
+  try {
+    const { path, ...questionVoteData } = params;
+
+    const response = await fetch(
+      `${process.env.API_ENDPOINT}/questions/downvote`,
+      {
+        method: "PUT",
+        body: JSON.stringify(questionVoteData),
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookies().toString(),
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    revalidatePath(path);
+    return result;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }

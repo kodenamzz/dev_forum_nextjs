@@ -20,6 +20,14 @@ export interface GetQuestionByIdParams {
   questionId: string;
 }
 
+export interface QuestionVoteParams {
+  questionId: string;
+  userId: string;
+  hasupVoted: boolean;
+  hasdownVoted: boolean;
+  path: string;
+}
+
 // ANSWERS
 
 export interface CreateAnswerParams {
@@ -36,6 +44,13 @@ export interface GetAnswersParams {
   pageSize?: number;
 }
 
+export interface AnswerVoteParams {
+  answerId: string;
+  userId: string;
+  hasupVoted: boolean;
+  hasdownVoted: boolean;
+  path: string;
+}
 // USERS
 export interface GetAllUsersParams {
   page?: number;
